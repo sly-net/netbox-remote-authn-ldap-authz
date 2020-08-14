@@ -1,6 +1,4 @@
 import logging
-import base64
-import string
 
 from django.conf import settings
 from django.contrib.auth.backends import ModelBackend
@@ -47,7 +45,8 @@ class RemoteLDAPBackend(LDAPBackend):
         return user
 
     def clean_username(self, username):
-        return ''.join(filter(lambda x: x in string.printable, base64.b64decode(f"{username.split('/')[1]}{'=' * (len(username.split('/')[1]) % 4)}").decode('ascii').lstrip())).split("ldap")[0]
+        # Do whatever you need here. For example remove any @ and following characters.
+        return username
 
 
 class _RemoteLDAPUser(_LDAPUser):
